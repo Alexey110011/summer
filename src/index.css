@@ -1,3 +1,8 @@
+@media(min-width:340px) {
+  *{box-sizing:border-box;
+    margin:0;
+   }
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +10,331 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #E5E5E5;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.header{
+  display:flex;
+  height:72px;
+  width:100vw;
+  padding-left: 41px;
+  background-color: blue;
+  vertical-align: middle;
+  margin-bottom: 28px;
+}
+.field {
+  display:flex;
+  align-items: center;
+  min-width:240px;
+  width: 500px;
+  height: 41px;
+  font-family: serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16.4px;
+  margin-left: 22px;
+  margin-top: 16px;
+  vertical-align:middle;
+  padding-left: 19px;
+  background-color:white;
+  border-radius: 6px;
+}
+  .header input{
+    width:256px;
+    height:24px;
+    margin-left:11px;
+    font-family: "Inter-Regular";
+    font-size:14px;
+    line-height: 16.94px;
+  }
+  .find {
+    margin: 0 auto;
+    margin-top:291.92px ;
+  }
+
+  .main {
+   margin-top: 0;
+   position: relative;
+   text-align: center;
+   background-color: #E5E5E5;
+   height: 100vh;
+   width:100vw
+   }
+  #main_text {
+    margin:46.92px auto 269px;
+    width: 210px;
+    height:62px;
+    text-align: center;
+  }
+  .avatar{
+    position:absolute;
+    top:39px;
+    left:57px;
+    width:280px;
+    height:280px;
+    border-radius:50%;
+    margin-bottom: 29px;
+    }
+  .loader {
+    width:120px;
+    height:120px;
+    border:16px solid lightgrey;
+    border-radius:50%;
+    border-top:16px solid blue;
+    animation: spin 2s linear infinite;
+    visibility:hidden;
+    position:absolute;
+    top:300px;
+    left:500px
+  }
+  @keyframes spin {
+    from {
+    transform:rotate(0deg)}
+    to {transform: rotate(360deg)}
+  }
+  .items {
+   background-color: white;
+   width:auto;
+    margin-left: 620px;
+    margin-bottom:10px;
+    margin-right:56px;
+    text-align: left;
+    padding-left:24px;
+    padding-bottom: 16px;
+    padding-top:16px
+    }
+.loop {
+    text-align:center;
+    padding-top:219.92px;
+    visibility:visible
+  }
+  .login {
+    position:absolute;
+    top:394px;
+    left:56.03px;
+    font-size: 18px;
+    color:blue;
+    text-decoration: none;
+    cursor:pointer;
+    font-family:  "Inter-Regular";
+  }
+  .followers {
+    position:absolute;
+    top:447.98px;
+    left:56.03px;
+    font-family: "Inter-Regular";
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .rep {
+    position:absolute;
+    top:-1100px;
+    left:300px;
+    width:700px;
+    text-align: left;
+    font-family: "Inter-SemiBold";
+  }
+  .status {
+    position:absolute;
+    top:300px;
+    left:500px
+  }
+  .name{
+    position: absolute;
+    top:348px;
+    left:56.03px;
+    height:34px;
+    font-size: 26px;
+    font-family: "Inter-SemiBold";
+    }
+  .nameRepo {
+    font-size: 24px;
+    font-family: "Inter-SemiBold";
+    }
+  .description {
+    margin-top: 16px;
+    font-size: 16px;
+    font-family: "Inter-Regular";
+    line-height:19.36px;
+  }
+  .pagination {
+    font-family:"Inter-Regular";
+    font-size: 14px;
+    display:flex;
+    flex-direction: row;
+    justify-content:flex-start;
+   
+  }
+  .pagination a:focus{
+    width:25px;
+    color:white;
+    background-color: blue;
+    border-radius: 3px;
+    padding: 2px 6px 2px 6px;
+  }
+  .pagination li {
+    color:#808080;
+    list-style-type: none;
+    margin-left:16px;
+  }
+  .page-link{
+    margin:0
+  }
+  .not {
+position:absolute;
+text-align:center;
+top:229px;
+left:50%;
+}
+input {
+  border-style:none
+}
+input:focus{
+  outline:none
+}
+.head {
+  width:37px;
+  height:37px;
+  border:8px solid #808080;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+.shoulders {
+  width:65px;
+  height:74px;
+  border:8px solid #808080;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+.cont {
+  height:37px;
+  overflow: clip;
+  margin-bottom: 42px;
+}
+.info {
+  font-family: 'Inter-Regular';
+  font-size: 22px;
+  line-height: 30.8px;
+  text-align: center;
+}
+.ppp{
+  font-size: 22px;
+}
+/*.info */.start{
+  margin-top:46.92px;
+}
+.emp1 {
+  border: 8px solid #808080;
+  border-radius: 30%;
+  width: 76px;
+  height: 62px;
+  font-size: 30px;
+  font-weight:800;
+  color:#808080;
+  margin-bottom: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.empty {
+position:absolute;
+top:221px;
+left:751px;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+@font-face {
+  font-family: 'Inter-Regular';
+  src: url(./fonts/Inter-Regular.ttf) format('truetype')
+}
+@font-face {
+  font-family: 'Inter-SemiBold';
+  src: url(./fonts/Inter-SemiBold.ttf) format('truetype')
+}
+@font-face {
+  font-family: 'Inter-Medium';
+  src: url(./fonts/Inter-Medium.ttf) format('truetype')
+}
+
+.repositories {
+  font-family: "Inter-SemiBold";
+  font-size: 32px;
+  line-height: 41.6px;
+  margin-left: 15px;
+  margin-top: 28px;
+  margin-bottom: 29px;
+}
+.wrapper-items {
+  margin-top: 29px;
+}
+  a {
+    text-decoration: none;
+    padding:0;
+    margin: 0;
+  }
+  .paginate {
+    margin-right: 56px;
+    color:#808080
+  }
+  .followers{
+   display:flex;
+   flex-direction: row;
+   align-items:center
+  }
+  .wrapper {
+    position:relative;
+    display:flex;
+    flex-direction: row;
+    justify-content:space-around;
+    align-items: center;
+    padding:0;
+    margin-left:960px;
+    margin-right: 56px;
+    margin-top: 26px;
+    width: auto;
+  }
+}
+
+  @media(min-width:340px) and (max-width:480px) {
+    .repositories  {
+      margin-left:25%;
+      font-size: 24px;
+    }
+    .main {
+      width:100%;
+      text-align:center;
+    }
+    .items {
+      width:95%;
+      text-align: left;
+      font-size: 14px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+      padding-left: 32px;
+      }
+    .pages {
+      width:auto;
+      position:absolute;
+      top:485px;
+      left:0px
+    }
+    .wrapper {
+      position:absolute;
+      right:0;
+      padding-left: 10px;
+    }
+    .field {
+      display:flex;
+      align-items: center;
+      min-width:240px;
+      width: 50%;
+    }
+   
+  }
