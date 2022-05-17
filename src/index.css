@@ -281,9 +281,12 @@
     }
     .empty {
       position:static;
-      margin:-60px auto
+      margin:70px auto
     }
-    .info #empty1 {
+    .empt1 {
+      margin-bottom: 50px;
+    }
+    .emp1 {
       order:1;
     }
     .emp1 {
@@ -395,17 +398,17 @@
     .wrapper {
       margin-left: 0;
       }
-    .followers {
-      display:flex/*inline-block*/;
-      /*flex-direction: row;*/
-      /*align-items:center;*/
-      /*justify-content: center;*/
-     }
+      .followers {
+        display:flex;
+        flex-direction: column;
+        justify-content: flex-end;
+       }
    }
   
   @media(min-width:481px) and (max-width:560px){
     .wrapper {
       margin-left: -130px;
     }
+    
   }
  

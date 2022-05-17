@@ -98,12 +98,11 @@ export const InitialState = ()=> {
         setLengthOf(lengthOfArray)
         }
        
-        function handleEnter(e) {
+        function handleEnter (e) {
             if(e.key ==="Enter") {
-               getUser()
-         }
-        }
-        
+               getUser()}
+            }
+                    
     const UserNot = ({status, login})=>{
         if(status&&!login) {
         return(
@@ -123,7 +122,7 @@ export const InitialState = ()=> {
             return(
                 <div className="empty">
                     <div className="emp1">X</div>
-                    <div className="info" id = "empty1">Repository list is empty</div>
+                    <div className="info empt1">Repository list is empty</div>
                 </div>)
         } else {
             return null
@@ -137,7 +136,7 @@ export const InitialState = ()=> {
                 <img className = "avatar" src = {avatar} alt = "avatar"></img>
                 <div className = "name">{name}</div>
                 <a className = "login" href  ={html} target="_blank" rel = "noreferrer">{login}</a>
-                <div className = "followers"><img src = {shared} alt ="followers" className = "followers img1"/><div className = "followers 1">{followers} followers</div><img src = {provate} alt ="followings" className = "followers img2"/> <div className = "followers 2">{following} following</div></div>
+                <div className = "followers"><img src = {shared} alt ="followers" className = "followers img1"/><div className = "followers1">{followers} followers</div><img src = {provate} alt ="followings" className = "followers img2"/> <div className = "followers2">{following} following</div></div>
             </div>
         )}
         }
