@@ -8,7 +8,7 @@
   background-color: white;
 }*/
 
-.App-logo {
+.github-logo {
   width:41px;
   height: 41px;
   pointer-events: none;
@@ -35,7 +35,7 @@
   color: white;
 }*/
 
-.App-link {
+/*.App-link {
   color: #61dafb;
 }
 
@@ -46,5 +46,5 @@
   to {
     transform: rotate(360deg);
   }
-}
+}*/
 

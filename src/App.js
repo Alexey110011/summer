@@ -3,7 +3,7 @@ import {InitialState} from './InitialState'
 
 function App() {
   return (
-       <div className = "App">
+       <div /*className = "App"*/>
           <InitialState/>
        </div>
     );

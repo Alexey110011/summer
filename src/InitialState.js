@@ -1,7 +1,6 @@
 import './index.css'
 import vector from './images/Vector.svg';
 import image1 from './images/image1.png'
-import stroke from './images/Stroke.png'
 import shared from './images/shared.png'
 import provate from './images/provate.png'
 import axios from "axios"
@@ -13,7 +12,7 @@ export const InitialState = ()=> {
     const inputRef = useRef()
     const loader =  useRef()
     const loop = useRef()
-    const [line, setLine] = useState()
+    const [avatar, setAvatar] = useState()
     const [name, setName] = useState()
     const [followers, setFollowers]= useState()
     const [following, setFollowing] = useState()  
@@ -24,28 +23,7 @@ export const InitialState = ()=> {
     const [items, setItems] = useState([])
     
        
-    async function getUsersRepos1(public_repos) { 
-        loader.current.style.visibility = "visible"
-        const user = inputRef.current.value
-        const array5=[]
-        let i=0
-        while(i<Math.ceil(public_repos/100)){
-             i=i+1
-        let response = await axios.get(`https://api.github.com/users/${user}/repos?per_page=100&page=${i}`, {
-             headers: {
-             "Accept": "application/vnd.github.com.v3+json"
-            }             
-        })
-            console.log(...response.data)
-            array5.push(...response.data)
-        } 
-            console.log(array5)
-            return array5
-        }
-                   
-
-    async function getUser() {
-         loader.current.style.visibility = "visible"
+    async function fetchUser() {
         const user = inputRef.current.value
         let response = await axios.get(`https://api.github.com/users/${user}`, {
         headers: {
@@ -63,14 +41,16 @@ export const InitialState = ()=> {
         console.log(data)
         return data}
       }
-       
-    async function handleUser(){
-        const data = await getUser()
+
+    async function getUser(){
+        loader.current.style.visibility = "visible"
+          
+        const data = await fetchUser()
         console.log(data)
         if(data) {
             const {avatar_url, login, name,html_url, followers, following, public_repos}= data
-            handleRepos(public_repos)
-            setLine(avatar_url)
+            getUserRepos(public_repos)
+            setAvatar(avatar_url)
             setName(name)
             setLogin(login)
             setHtml(html_url)
@@ -80,110 +60,109 @@ export const InitialState = ()=> {
             } else if(!data){
             const notfound = "User not found"
             setStatus(notfound)
-            setLine(null)
+            setAvatar(null)
             setName(null)
             setLogin(null)
             setItems(null)
             setLengthOf(null)
+            loader.current.style.visibility = "hidden"
+        }
+    }
+  
+    async function fetchUsersRepos(public_repos) { 
+        const user = inputRef.current.value
+        const array5=[]
+        let i=0
+        while(i<Math.ceil(public_repos/100)){
+             i=i+1
+        let response = await axios.get(`https://api.github.com/users/${user}/repos?per_page=100&page=${i}`, {
+             headers: {
+             "Accept": "application/vnd.github.com.v3+json"
+            }             
+        })
+            console.log(...response.data)
+            array5.push(...response.data)
+        } 
+            console.log(array5)
+            return array5
+        }
+      
+    async function getUserRepos(public_repos){ 
+        loader.current.style.visibility = "visible"
+        const array2= await fetchUsersRepos(public_repos)
+        if(array2){
+            loader.current.style.visibility = "hidden"
+        }
+        const lengthOfArray = array2.length
+        setItems(array2)
+        setLengthOf(lengthOfArray)
+        }
+       
+        function handleEnter(e) {
+            if(e.key ==="Enter") {
+               getUser()
+         }
+        }
+        
+    const UserNot = ({status, login})=>{
+        if(status&&!login) {
+        return(
+        <div className='not'>
+            <div className = "head"></div>
+            <div className = "cont">
+            <div className = "shoulders"></div></div>
+            <div className = "info"> User not found</div>
+            </div>)
+        } else  if (login){
+            return null
         }
     }
 
-async function handleRepos(public_repos){
-    const array2= await getUsersRepos1(public_repos)
-    const lengthOfArray = array2.length
-    setItems(array2)
-    setLengthOf(lengthOfArray)
+    const UserRep= ({lengthOf})=>{
+        if (lengthOf===0) {
+            return(
+                <div className="empty">
+                    <div className="emp1">X</div>
+                    <div className="info" id = "empty1">Repository list is empty</div>
+                </div>)
+        } else {
+            return null
+        }
     }
 
-const UserNot = ({status, login})=>{
-    if(status&&!login) {
-    return(
-    <div className='not'>
-        <div className = "head"></div>
-        <div className = "cont">
-        <div className = "shoulders"></div></div>
-        <div className = "info"> User not found</div>
-        </div>)
-    } else  if (login){
-        return null
-    }
-}
-
-const UserRep= ({lengthOf})=>{
-    if (lengthOf===0) {
+    const UserInfo = ({avatar, name, html, login})=>{
+        if(login){
         return(
-            <div className="empty">
-                <div className="emp1"><b>X</b></div>
-                <div className="info">Repository list is empty</div>
-            </div>)
-    } else {
-        return null
-    }
-}
-
-const UserInfo = ({line, name, html, login})=>{
-    if(login){
-    return(
-        <div>
-            <img className = "avatar" src = {line} alt = "avatar"></img>
-            <div className = "name"><b>{name}</b></div>
-            <a className = "login" href  ={html} target="_blank" rel = "noreferrer">{login}</a>
-            <div className = "followers"><img src = {shared} alt ="followers"/>{followers} followers<img src = {provate} alt ="followings"/> {following} following</div>
-        </div>
-    )}
-      }
-
- const Loop = ({login, status})=> {
-     if(!login&&!status){
-     return( 
-        <div className  = "loop" ref = {loop}>
-            <img src={image1} width='64.17px' height = '64.17px' alt="image1"/>
-            <img src={stroke} width='37px' height = '37px' alt="image2"/>
-            <div className="info start">Start with searching <br></br>a GitHub user</div>
-        </div> )} 
-}
-
-const Main = () =>{
-        return(
-        <div className = "container">
-            <div className = "header">
-                <img src={vector} className="App-logo" alt="logo"/>
-                <div className='field'>
-                    <img src={image1} width='14px' height = '14px' alt="image1"/>
-                    <input type = "search" placeholder ="Enter GitHub username" ref ={inputRef} onKeyPress ={handleEnter}></input> 
-                </div>
+            <div>
+                <img className = "avatar" src = {avatar} alt = "avatar"></img>
+                <div className = "name">{name}</div>
+                <a className = "login" href  ={html} target="_blank" rel = "noreferrer">{login}</a>
+                <div className = "followers"><img src = {shared} alt ="followers" className = "followers img1"/><div className = "followers 1">{followers} followers</div><img src = {provate} alt ="followings" className = "followers img2"/> <div className = "followers 2">{following} following</div></div>
             </div>
-            <div className = "main">
-                <Loop login = {login} status = {status}/>
-                <div className = "loader" ref = {loader}></div>
-                <UserInfo line= {line} name = {name} html = {html} login = {login} /*status = {status}*//>
-                <div className ="pages">
-                    <PaginatedItems items = {items} itemsPerPage= {4}/> 
-                </div>
-            </div>   
-                <UserNot status= {status}/>
-                <UserRep lengthOf={lengthOf}/>  
-            </div>
-    )
-}
+        )}
+        }
 
-function handleEnter(e) {
-       if(e.key ==="Enter") {
-       handleUser()
+    const Loop = ({login, status})=> {
+        if(!login&&!status){
+        return( 
+            <div className  = "loop" ref = {loop}>
+                <img src={image1} width='64.17px' height = '64.17px' alt="image1"/>
+                <div className="info start">Start with searching <br></br>a GitHub user</div>
+            </div> )} 
     }
-}
 
-const Items = ({currentItems})=>{
-    return (
-        <div className = "wrapper-items">
-            {currentItems&&currentItems.map((item,i)=>
-            <div key = {i} className ="items">
-                <a href = {item.html_url} className = "nameRepo" target="_blank" rel = "noreferrer"><h3>{item.name}</h3></a>
-                <div  className = "description">{item.description}</div>
-                </div>)}
-        </div>
-     )
-}
+    const Items = ({currentItems})=>{
+        return (
+            <div className = "wrapper-items">
+                {currentItems&&currentItems.map((item,i)=>
+                <div key = {i} className ="items">
+                    <a href = {item.html_url} className = "nameRepo" target="_blank" rel = "noreferrer"><h3>{item.name}</h3></a>
+                    <div  className = "description">{item.description}</div>
+                    </div>)}
+            </div>
+        )
+    }
+            
 const PaginatedItems= ({items,itemsPerPage})=>{
     const [currentItems, setCurrentItems] = useState(null)
     const [pageCount, setPageCount] = useState(0)
@@ -208,7 +187,7 @@ const PaginatedItems= ({items,itemsPerPage})=>{
     const Repositories =({items})=>{
         if(items&&items.length!==0){
             return(
-                <span className = "repositories">Repositories ({lengthOf})</span>)
+                <div className = "repositories">Repositories ({lengthOf})</div>)
          }else {
              return null
             }
@@ -247,5 +226,29 @@ return(
     </div>
         </div>
    )}
-   return (<Main/>)
+ 
+    return(
+        <div className = "container"> 
+            <div className = "header">
+                <img src={vector} className="github-logo" alt="logo"/>
+                <div className='field'>
+                    <img src={image1} width='14px' height = '14px' alt="image1"/>
+                    <input type = "text" placeholder ="Enter GitHub username" ref ={inputRef} onKeyPress ={handleEnter}></input> 
+                </div>
+            </div>
+            <Loop login = {login} status = {status}/>
+            <UserNot status= {status}/>
+            <div className = "main">  
+                <div className="userInfo">
+                    <UserInfo avatar= {avatar} name = {name} html = {html} login = {login} />
+                </div>
+                <div className ="pages">
+                    <PaginatedItems items = {items} itemsPerPage= {4}/> 
+                </div>
+            </div>  
+            <div className = "loader" ref = {loader}></div>
+            <UserRep lengthOf={lengthOf}/>
+        </div>
+    )
 }
+ 
