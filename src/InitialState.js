@@ -4,7 +4,7 @@ import image1 from './images/image1.png'
 import shared from './images/shared.png'
 import provate from './images/provate.png'
 import axios from "axios"
-import {useEffect, useState, useRef} from 'react'
+import {useEffect, useState, useRef, useCallback} from 'react'
 import ReactPaginate from 'react-paginate';
 
 
@@ -12,6 +12,7 @@ export const InitialState = ()=> {
     const inputRef = useRef()
     const loader =  useRef()
     const loop = useRef()
+    const [user, setUser] = useState('')
     const [avatar, setAvatar] = useState()
     const [name, setName] = useState()
     const [followers, setFollowers]= useState()
@@ -21,10 +22,19 @@ export const InitialState = ()=> {
     const [status,setStatus] = useState(null)
     const [lengthOf, setLengthOf] = useState()
     const [items, setItems] = useState([])
+    const [pressed, setPressed]=useState(false)
     
-       
-    async function fetchUser() {
-        const user = inputRef.current.value
+    function handleEnter(e) {
+        if (e.key === "Enter") {
+           const user = inputRef.current.value
+           const pressed1 = true
+           setUser(user)
+           setPressed(pressed1)
+           console.log(user, typeof user)}
+        }
+
+
+    const  fetchUser = useCallback(async ()=> {
         let response = await axios.get(`https://api.github.com/users/${user}`, {
         headers: {
         "Accept": "application/vnd.github.com.v3+json"
@@ -40,16 +50,44 @@ export const InitialState = ()=> {
         const data = await response.data
         console.log(data)
         return data}
-      }
+      },[user])
 
-    async function getUser(){
+      const  fetchUserRepos = useCallback(async(public_repos) =>{ 
+        const array5=[]
+        let i=0
+        while(i<Math.ceil(public_repos/100)){
+             i=i+1
+        let response = await axios.get(`https://api.github.com/users/${user}/repos?per_page=100&page=${i}`, {
+             headers: {
+             "Accept": "application/vnd.github.com.v3+json"
+            }             
+        })
+            console.log(...response.data)
+            array5.push(...response.data)
+        } 
+            console.log(array5)
+            return array5
+        },[user])
+      
+      const /*async function*/ getUserRepos = useCallback(async (user, public_repos)=>{ 
         loader.current.style.visibility = "visible"
-          
-        const data = await fetchUser()
+        const array2= await fetchUserRepos(public_repos)
+        if(array2){
+            loader.current.style.visibility = "hidden"
+            }
+        const lengthOfArray = array2.length
+        setItems(array2)
+
+        setLengthOf(lengthOfArray)
+        },[fetchUserRepos])
+           
+        const getUser = useCallback((async(user)=>{
+        loader.current.style.visibility = "visible"
+        const data = await fetchUser(user)
         console.log(data)
         if(data) {
             const {avatar_url, login, name,html_url, followers, following, public_repos}= data
-            getUserRepos(public_repos)
+            getUserRepos(user,public_repos)
             setAvatar(avatar_url)
             setName(name)
             setLogin(login)
@@ -67,42 +105,15 @@ export const InitialState = ()=> {
             setLengthOf(null)
             loader.current.style.visibility = "hidden"
         }
-    }
-  
-    async function fetchUsersRepos(public_repos) { 
-        const user = inputRef.current.value
-        const array5=[]
-        let i=0
-        while(i<Math.ceil(public_repos/100)){
-             i=i+1
-        let response = await axios.get(`https://api.github.com/users/${user}/repos?per_page=100&page=${i}`, {
-             headers: {
-             "Accept": "application/vnd.github.com.v3+json"
-            }             
-        })
-            console.log(...response.data)
-            array5.push(...response.data)
-        } 
-            console.log(array5)
-            return array5
-        }
-      
-    async function getUserRepos(public_repos){ 
-        loader.current.style.visibility = "visible"
-        const array2= await fetchUsersRepos(public_repos)
-        if(array2){
-            loader.current.style.visibility = "hidden"
-        }
-        const lengthOfArray = array2.length
-        setItems(array2)
-        setLengthOf(lengthOfArray)
-        }
-       
-        function handleEnter (e) {
-            if(e.key ==="Enter") {
-               getUser()}
+    }),[fetchUser, getUserRepos])
+
+    useEffect(() => {
+        if(user||pressed){
+            getUser(user)
             }
-                    
+        },[user, pressed ,getUser])  
+
+    
     const UserNot = ({status, login})=>{
         if(status&&!login) {
         return(
@@ -121,7 +132,10 @@ export const InitialState = ()=> {
         if (lengthOf===0) {
             return(
                 <div className="empty">
-                    <div className="emp1">X</div>
+                    <div className="emp1">
+                        <div className = "x1"></div>
+                        <div className = "x2"></div>
+                    </div>
                     <div className="info empt1">Repository list is empty</div>
                 </div>)
         } else {
@@ -236,7 +250,7 @@ return(
                 </div>
             </div>
             <Loop login = {login} status = {status}/>
-            <UserNot status= {status}/>
+            <UserNot login={login} status= {status}/>
             <div className = "main">  
                 <div className="userInfo">
                     <UserInfo avatar= {avatar} name = {name} html = {html} login = {login} />
