@@ -119,8 +119,8 @@ export const InitialState = ()=> {
         return(
         <div className='not'>
             <div className = "head"></div>
-            <div className = "cont">
-            <div className = "shoulders"></div></div>
+            {/*<div className = "cont">*/}
+            <div className = "shoulders"></div>{/*</div>*/}
             <div className = "info"> User not found</div>
             </div>)
         } else  if (login){
@@ -251,6 +251,8 @@ return(
             </div>
             <Loop login = {login} status = {status}/>
             <UserNot login={login} status= {status}/>
+            <div className = "loader" ref = {loader}></div>
+
             <div className = "main">  
                 <div className="userInfo">
                     <UserInfo avatar= {avatar} name = {name} html = {html} login = {login} />
@@ -259,8 +261,7 @@ return(
                     <PaginatedItems items = {items} itemsPerPage= {4}/> 
                 </div>
             </div>  
-            <div className = "loader" ref = {loader}></div>
-            <UserRep lengthOf={lengthOf}/>
+                       <UserRep lengthOf={lengthOf}/>
         </div>
     )
 }

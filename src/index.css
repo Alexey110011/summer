@@ -76,7 +76,10 @@
       margin-bottom: 29px;
       }
     .loader {
-      margin:-30% auto;
+      /*margin:-30% auto;*/
+      position:absolute;
+      top:230px;
+      left:50%;
       width:120px;
       height:120px;
       border:16px solid lightgrey;
@@ -160,7 +163,7 @@
      margin:229px auto
     }
     input {
-      border:none
+     border:none
     }
     input:focus{
       outline:none
@@ -181,6 +184,13 @@
       border:8px solid #808080;
       border-radius: 50%;
       margin: 0 auto;
+      clip-path: polygon(
+        0% 0%, 
+        50% 0%,
+        100% 0%,
+        100% 50%,
+        0 50%
+      );
     }
     .cont {
       height:37px;
