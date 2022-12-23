@@ -87,6 +87,7 @@
       border-top:16px solid rgb(41, 41, 187);
       animation: spin 2s linear infinite;
       visibility:hidden;
+      z-index:3
      }
     @keyframes spin {
       from {
